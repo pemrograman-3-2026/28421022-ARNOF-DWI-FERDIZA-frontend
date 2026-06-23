@@ -1,4 +1,8 @@
 'use client'
+
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
 export default function Navbar(
   { 
     onToggleSidebar, 
@@ -8,6 +12,13 @@ export default function Navbar(
     onToggleCollapse: () => void,
   }
 ) {
+  const router = useRouter();
+
+  
+  const handleLogout = () => {
+    Cookies.remove('user'); 
+    router.push('/'); 
+  };
 
   return (
     <nav className="navbar navbar-light bg-white border-bottom px-3">
@@ -30,6 +41,7 @@ export default function Navbar(
       <div className="d-flex align-items-center gap-2">
         <button
           className="btn btn-sm btn-outline-danger"
+          onClick={handleLogout}
         >
           Logout
         </button>

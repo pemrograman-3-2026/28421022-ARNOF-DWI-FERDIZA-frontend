@@ -4,20 +4,15 @@ import { api } from '@/lib/axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-interface IBarang {
+interface IUser {
   id: number;
-  nama_barang: string;
-  harga: number;
-  stok: number;
-  image?: string;
-  kategori?: {
-    id: number;
-    nama_kategori: string;
-  };
+  username: string;
+  role: string;
+  no_telp?: string;
 }
 
-export default function BarangPage() {
-  const [data, setData] = useState<IBarang[]>([]);
+export default function UserPage() {
+  const [data, setData] = useState<IUser[]>([]);
 
   useEffect(() => {
     getData();
@@ -25,7 +20,7 @@ export default function BarangPage() {
 
   const getData = async () => {
     try {
-      const res = await api.get<any>('/barang'); 
+      const res = await api.get<any>('/user'); 
       if (res.data.data) {
         setData(res.data.data);
       } else if (Array.isArray(res.data)) {
@@ -33,7 +28,7 @@ export default function BarangPage() {
       }
     } catch (error: any) {
       console.log(error);
-      const err = error.response?.data?.message || error.response?.data?.error || error.message || 'Gagal mengambil data barang';
+      const err = error.response?.data?.message || error.response?.data?.error || error.message || 'Gagal mengambil data user';
       showToast(err, 'danger');
     }
   };
@@ -43,7 +38,7 @@ export default function BarangPage() {
 
     if (isAgree) {
       try {
-        const res = await api.delete<any>(`/barang/${id}`);
+        const res = await api.delete<any>(`/user/${id}`);
         showToast(res.data?.message || 'Berhasil dihapus', 'success');
         getData();
       } catch (error: any) {
@@ -55,25 +50,23 @@ export default function BarangPage() {
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center">
-        <h4>Data Barang</h4>
+        <h4>Data User</h4>
       </div>
-      <Link href={'/admin/produk/create'}>
+      <Link href={'/admin/user/create'}>
         <button
           type="button"
           className="btn btn-primary mt-2"
         >
-          Tambah Barang
+          Tambah User
         </button>
       </Link>
-      <table className="table table-hover mt-4 table-striped">
+      <table className="table table-hover mt-4 table-striped ">
         <thead>
           <tr>
             <th>No</th>
-            <th>Image</th>
-            <th>Nama Barang</th>
-            <th>Kategori</th>
-            <th>Harga</th>
-            <th>Stok</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>No Telp</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -82,20 +75,12 @@ export default function BarangPage() {
             return (
               <tr key={d.id}>
                 <td>{index + 1}</td>
-                <td>
-                  {d.image ? (
-                    <img src={`http://localhost:3100/image/${d.image}`} alt={d.nama_barang} width={100} height={100} style={{ objectFit: 'cover', borderRadius: '4px' }} />
-                  ) : (
-                    <div style={{ width: 50, height: 50, backgroundColor: '#eee', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#999', textAlign: 'center' }}>No Image</div>
-                  )}
-                </td>
-                <td>{d.nama_barang}</td>
-                <td>{d.kategori?.nama_kategori || '-'}</td>
-                <td>Rp {d.harga.toLocaleString('id-ID')}</td>
-                <td>{d.stok}</td>
+                <td>{d.username}</td>
+                <td>{d.role}</td>
+                <td>{d.no_telp || '-'}</td>
                 <td>
                   <div className="d-flex gap-2">
-                    <Link href={`/admin/produk/${d.id}`}>
+                    <Link href={`/admin/user/edit/${d.id}`}>
                       <button className="btn btn-warning btn-sm">Edit</button>
                     </Link>
                     <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
@@ -106,7 +91,7 @@ export default function BarangPage() {
           })}
           {(!data || data.length === 0) && (
             <tr>
-              <td colSpan={6} className="text-center">Belum ada data barang</td>
+              <td colSpan={5} className="text-center">Belum ada data user</td>
             </tr>
           )}
         </tbody>

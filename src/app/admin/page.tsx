@@ -28,12 +28,12 @@ export default function DashboardAdmin () {
 
     const fetchDashboardData = async () => {
         try {
-            // Fetch Produk
+            
             const resProduk = await api.get('/barang');
             const produkData = resProduk.data?.data || resProduk.data || [];
             setTotalProduk(produkData.length);
 
-            // Fetch Pelanggan
+            
             const resPelanggan = await api.get('/pelanggan');
             const pelangganData = resPelanggan.data?.data || resPelanggan.data || [];
             setTotalPelanggan(pelangganData.length);

@@ -1,7 +1,7 @@
 'use client'
 import { showToast } from "@/Components/toast/toast"
 import { api } from "@/lib/axios"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, use } from "react"
 import { useRouter } from "next/navigation"
 
 interface IKategori {
@@ -9,20 +9,28 @@ interface IKategori {
     nama_kategori: string;
 }
 
-export default function CreateProdukPage (){
+export default function EditProdukPage ({ params }: { params: Promise<{ id: string }> }) {
    
+
+    const unwrappedParams = use(params);
+    const id = unwrappedParams.id;
+
     const [namaBarang, setNamaBarang] = useState('')
     const [harga, setHarga] = useState('')
     const [stok, setStok] = useState('')
     const [kategoriId, setKategoriId] = useState('')
     const [kategoris, setKategoris] = useState<IKategori[]>([])
     const [image, setImage] = useState<File | null>(null)
+    const [currentImage, setCurrentImage] = useState<string>('')
 
     const router = useRouter()
 
     useEffect(() => {
         getKategori()
-    }, [])
+        if (id) {
+            getProduk(id)
+        }
+    }, [id])
 
     const getKategori = async () => {
         try {
@@ -34,6 +42,23 @@ export default function CreateProdukPage (){
             }
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const getProduk = async (produkId: string) => {
+        try {
+            const res = await api.get<any>(`/barang/${produkId}`)
+            const data = res.data?.data || res.data
+            if (data) {
+                setNamaBarang(data.nama_barang || '')
+                setHarga(data.harga || '')
+                setStok(data.stok || '')
+                setKategoriId(data.kategori_id || data.kategori?.id || '')
+                setCurrentImage(data.image || '')
+            }
+        } catch (error: any) {
+            console.log(error)
+            showToast('Gagal mengambil data produk', 'danger')
         }
     }
 
@@ -49,13 +74,13 @@ export default function CreateProdukPage (){
                 formData.append('image', image)
             }
 
-            const res = await api.post<any>('/barang', formData, {
+            const res = await api.put<any>(`/barang/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
             
-            showToast(res.data?.message || 'Produk berhasil ditambahkan!', 'success')
+            showToast(res.data?.message || 'Produk berhasil diubah!', 'success')
             
             router.push('/admin/produk')
 
@@ -75,7 +100,7 @@ export default function CreateProdukPage (){
 
     return(
         <div>
-            <h4>Input Produk Baru</h4>
+            <h4>Edit Produk</h4>
             <div className="row mt-4">
                 <div className="col-md-6">
                     <form onSubmit={onSubmit}>
@@ -130,6 +155,11 @@ export default function CreateProdukPage (){
                         </div>
                         <div className="mb-3">
                             <label className="form-label small fw-semibold">Gambar Produk</label>
+                            {currentImage && (
+                                <div className="mb-2">
+                                    <img src={`http://localhost:3100/image/${currentImage}`} alt="Current Image" width={100} height={100} style={{ objectFit: 'cover', borderRadius: '4px' }} />
+                                </div>
+                            )}
                             <input
                                 type="file"
                                 className="form-control form-control-sm py-2"
@@ -140,9 +170,10 @@ export default function CreateProdukPage (){
                                     }
                                 }}
                             />
+                            <small className="text-muted d-block mt-1">Biarkan kosong jika tidak ingin mengubah gambar.</small>
                         </div>
                         
-                        <button type="submit" className="btn btn-primary"> Save Produk </button>
+                        <button type="submit" className="btn btn-primary"> Update Produk </button>
                     </form>
                 </div>
             </div>

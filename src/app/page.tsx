@@ -5,24 +5,36 @@ import { api } from "@/lib/axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Cookies from "js-cookie"; 
 
 export default function LoginPage() {
 
-const [username, setUsername] = useState('')
-const [password, setPassword] = useState('')
-const router = useRouter()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
 
-const onLogin = async (e: React.SubmitEvent) => {
+  const onLogin = async (e: React.FormEvent) => { 
     e.preventDefault()
     try {
       const res = await api.post<any>('user/login', {
         username,
         password
       })
+
+      
+      const userData = res.data.data || res.data.user || res.data;
+
+      Cookies.set('user', JSON.stringify(userData), { expires: 1 })
+
       showToast(res.data.message, 'success')
-      router.push('/admin')
+      if (userData.role === 'ADMIN') {
+        router.push('/admin')
+      } else {
+        router.push('/user/dashboard')
+      }
+
     } catch (error: any) {
-      showToast(error.response.data.message, 'danger')
+      showToast(error.response?.data?.message || "Login gagal", 'danger')
     }
   }
 
@@ -75,14 +87,14 @@ const onLogin = async (e: React.SubmitEvent) => {
           <p className="text-center text-muted small mt-4 mb-0">
             Belum punya akun?
           </p>
-          <Link href ={'/register'}>
+          <Link href={'/register'}>
             <button
-                type="button"
-                className="btn w-100 py-2 text-white fw-semibold"
-                style={{ background: "#1e2a3a", borderRadius: "8px" }}
-              >
-                Daftar
-              </button>
+              type="button"
+              className="btn w-100 py-2 text-white fw-semibold"
+              style={{ background: "#1e2a3a", borderRadius: "8px" }}
+            >
+              Daftar
+            </button>
           </Link>
         </div>
       </div>
