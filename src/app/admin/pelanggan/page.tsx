@@ -80,7 +80,7 @@ export default function PelangganPage() {
                 <td>{d.alamat}</td>
                 <td>
                   <div className="d-flex gap-2">
-                    <Link href={`/admin/pelanggan/edit/${d.id}`}>
+                    <Link href={`/admin/pelanggan/edit?id=${d.id}`}>
                       <button className="btn btn-warning btn-sm">Edit</button>
                     </Link>
                     <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>

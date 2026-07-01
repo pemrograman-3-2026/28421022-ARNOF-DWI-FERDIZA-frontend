@@ -19,10 +19,10 @@ const CATEGORIES = [
   "Semua Barang Sembako",
   "Beras & Biji-bijian",
   "Minyak & Mentega",
-  "Gula, Garam & Bumbu",
-  "Susu, Telur & Protein",
-  "Makanan Instan",
-  "Minuman & Teh"
+  "Alat mandi & Sabun",
+  "Kebutuhan Anak",
+  "Kebutuhan Pokok"
+
 ];
 
 export default function KatalogPage() {
@@ -76,7 +76,8 @@ export default function KatalogPage() {
     if (activeCategory !== "Semua Barang Sembako") {
       const productCat = product.kategori?.nama_kategori?.toLowerCase() || '';
       const selectedCat = activeCategory.toLowerCase();
-      matchesCategory = productCat === selectedCat || selectedCat.includes(productCat) || productCat.includes(selectedCat.split(' ')[0]);
+      
+      matchesCategory = productCat === selectedCat || selectedCat.includes(productCat) || productCat.includes(selectedCat);
     }
 
     return matchesSearch && matchesCategory;

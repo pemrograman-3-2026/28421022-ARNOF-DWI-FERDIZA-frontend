@@ -78,12 +78,14 @@ export default function TransaksiPage() {
                 <td>{d.tanggal_transaksi}</td>
                 <td>
                   <div className="d-flex gap-1">
-                    <button
-                      type="button"
-                      className="btn btn-warning"
-                    >
-                      Edit
-                    </button>
+                    <Link href={`/admin/transaksi/edit?id=${d.id}`}>
+                      <button
+                        type="button"
+                        className="btn btn-warning"
+                      >
+                        Edit
+                      </button>
+                    </Link>
                     <button
                       onClick={() => deleteData(d.id)}
                       type="button"
