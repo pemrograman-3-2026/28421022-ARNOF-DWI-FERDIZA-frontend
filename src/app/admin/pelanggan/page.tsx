@@ -60,42 +60,44 @@ export default function PelangganPage() {
           Tambah Pelanggan
         </button>
       </Link>
-      <table className="table table-hover mt-4 table-striped ">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>No Telp</th>
-            <th>Alamat</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((d, index) => {
-            return (
-              <tr key={d.id}>
-                <td>{index + 1}</td>
-                <td>{d.nama}</td>
-                <td>{d.no_telp}</td>
-                <td>{d.alamat}</td>
-                <td>
-                  <div className="d-flex gap-2">
-                    <Link href={`/admin/pelanggan/edit?id=${d.id}`}>
-                      <button className="btn btn-warning btn-sm">Edit</button>
-                    </Link>
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-          {(!data || data.length === 0) && (
+      <div className="table-responsive">
+        <table className="table table-hover mt-4 table-striped ">
+          <thead>
             <tr>
-              <td colSpan={5} className="text-center">Belum ada data pelanggan</td>
+              <th>No</th>
+              <th>Nama</th>
+              <th>No Telp</th>
+              <th>Alamat</th>
+              <th>Aksi</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.map((d, index) => {
+              return (
+                <tr key={d.id}>
+                  <td>{index + 1}</td>
+                  <td>{d.nama}</td>
+                  <td>{d.no_telp}</td>
+                  <td>{d.alamat}</td>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <Link href={`/admin/pelanggan/edit?id=${d.id}`}>
+                        <button className="btn btn-warning btn-sm">Edit</button>
+                      </Link>
+                      <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            {(!data || data.length === 0) && (
+              <tr>
+                <td colSpan={5} className="text-center">Belum ada data pelanggan</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import { api } from '@/lib/axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface ITransaksi {
   id: number;
@@ -145,6 +146,9 @@ export default function RiwayatPage() {
                       <h5 className="fw-bolder text-success mb-0 font-monospace">
                         Rp {trx.total_harga.toLocaleString('id-ID')}
                       </h5>
+                      <Link href={`/user/riwayat/receipt?id=${trx.id}`} className="btn btn-sm btn-outline-success rounded-pill px-3 mt-3">
+                        Lihat Struk
+                      </Link>
                     </div>
                   </div>
                 </div>

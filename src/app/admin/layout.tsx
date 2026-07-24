@@ -12,7 +12,7 @@ export default function AdminLayout ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="d-flex">
+    <div className="d-flex vh-100 overflow-hidden">
       <div
         className={`sidebar-backdrop ${sidebarOpen ? "show" : ""}`}
         onClick={() => setSidebarOpen(false)}
@@ -30,7 +30,7 @@ export default function AdminLayout ({
           onToggleCollapse={() => setCollapsed((prev) => !prev)}
         />
 
-        <main className="p-4 flex-grow-1 bg-light">
+        <main className="p-4 flex-grow-1 bg-light overflow-y-auto">
           {children}
         </main>
       </div>

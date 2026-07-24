@@ -1,4 +1,4 @@
-import { Package, Tags, LayoutDashboard, ShoppingCart, Users, ReceiptText } from "lucide-react";
+import { Package, Tags, LayoutDashboard, ShoppingCart, Users, ReceiptText, User, Settings } from "lucide-react";
 
 export const adminMenu = [
   { to: "/admin", icon: LayoutDashboard , label: "Dashboard" },
@@ -7,4 +7,5 @@ export const adminMenu = [
   { to: "/admin/transaksi", icon: ShoppingCart, label: "Transaksi" },
   { to: "/admin/detail-transaksi", icon: ReceiptText, label: "Detail Transaksi" },
   { to: "/admin/pelanggan", icon: Users, label: "Pelanggan" },
+  { to: "/admin/pengaturan", icon: Settings, label: "Pengaturan" },
 ];

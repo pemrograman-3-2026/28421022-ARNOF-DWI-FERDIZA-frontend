@@ -8,6 +8,8 @@ export default function CreateKategoriPage() {
    
     const [namaKategori, setNamaKategori] = useState('')
     const [deskripsi, setDeskripsi] = useState('')
+    
+  
 
     const router = useRouter()
 

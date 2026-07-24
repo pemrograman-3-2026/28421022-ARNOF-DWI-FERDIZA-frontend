@@ -17,6 +17,7 @@ export default function CreateProdukPage (){
     const [kategoriId, setKategoriId] = useState('')
     const [kategoris, setKategoris] = useState<IKategori[]>([])
     const [image, setImage] = useState<File | null>(null)
+    
 
     const router = useRouter()
 
@@ -116,6 +117,8 @@ export default function CreateProdukPage (){
                                 placeholder="Misal: 15000"
                                 required
                             />
+            
+
                         </div>
                         <div className="mb-3">
                             <label className="form-label small fw-semibold">Stok</label>

@@ -7,13 +7,10 @@ import { useEffect, useState } from 'react';
 interface ITransaksi {
   id: number;
   nama_pelanggan?: string;
-  pelanggan?: {
-    nama: string;
-  };
+  pelanggan?: { nama: string };
   total_harga: number;
   tanggal_transaksi: string;
-  created_at: string;
-  updated_at: string;
+  user?: { username: string };
 }
 
 export default function TransaksiPage() {
@@ -25,81 +22,73 @@ export default function TransaksiPage() {
 
   const getData = async () => {
     try {
-      const res = await api.get<any>('/transaksi'); 
-      
-      
-      setData(res.data.data); 
-      
+      const res = await api.get<any>('/transaksi');
+      setData(res.data.data || []);
     } catch (error) {
       console.log(error);
     }
   };
 
   const deleteData = async (id: number) => {
-    const isAgree = confirm('Are you sure?');
-
-    if (isAgree) {
+    if (confirm('Yakin ingin menghapus transaksi ini?')) {
       try {
-        
-        const res = await api.delete<any>(`/transaksi/${id}`);
+        const res = await api.delete(`/transaksi/${id}`);
         showToast(res.data?.message || 'Berhasil dihapus', 'success');
         getData();
       } catch (error: any) {
-        showToast(error.response?.data?.message || 'Error', 'danger');
+        showToast(error.response?.data?.message || 'Gagal menghapus', 'danger');
       }
     }
   };
+
   return (
-    <div>
-      <h4> Data Transaksi </h4>
-      <Link href={'/admin/transaksi/create'}>
-        <button
-          type="button"
-          className="btn btn-primary"
-        >
-          Tambah Transaksi{' '}
-        </button>
-      </Link>
-      <table className="table table-hover mt-4">
-        <thead>
-          <tr>
-            <td>Nama Pelanggan</td>
-            <td>Total Harga</td>
-            <td>Tanggal Transaksi</td>
-            <td>Aksi</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((d) =>   {
-            return (
-              <tr key={d.id}>
-                <td>{d.pelanggan?.nama || d.nama_pelanggan || '-'}</td>
-                <td>{d.total_harga}</td>
-                <td>{d.tanggal_transaksi}</td>
-                <td>
-                  <div className="d-flex gap-1">
-                    <Link href={`/admin/transaksi/edit?id=${d.id}`}>
-                      <button
-                        type="button"
-                        className="btn btn-warning"
-                      >
-                        Edit
-                      </button>
-                    </Link>
-                    <button
-                      onClick={() => deleteData(d.id)}
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div className="container-fluid py-3">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h5 className="fw-bold m-0">Data Transaksi</h5>
+        <Link href={'/admin/transaksi/create'} className="btn btn-primary btn-sm fw-bold">
+          + Tambah Transaksi
+        </Link>
+      </div>
+
+      <div className="card border-0 shadow-sm rounded-3">
+        <div className="card-body p-0">
+          <div className="table-responsive">
+            <table className="table table-hover align-middle mb-0">
+              <thead className="table-light">
+                <tr>
+                  <th className="ps-4">Pelanggan</th>
+                  <th>Total Harga</th>
+                  <th>Tanggal</th>
+                  <th className="text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((d) => (
+                  <tr key={d.id}>
+                    <td className="ps-4 fw-medium">
+                      {d.pelanggan?.nama || d.user?.username || d.nama_pelanggan || '-'}
+                    </td>
+                    <td className="text-success fw-bold">
+                      Rp {d.total_harga.toLocaleString('id-ID')}
+                    </td>
+                    <td>{new Date(d.tanggal_transaksi).toLocaleDateString('id-ID')}</td>
+                    <td>
+                      <div className="d-flex justify-content-center gap-2">
+                        <Link href={`/admin/transaksi/edit?id=${d.id}`} className="btn btn-sm btn-outline-warning">
+                          Edit
+                        </Link>
+                        <button onClick={() => deleteData(d.id)} className="btn btn-sm btn-outline-danger">
+                          Hapus
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 'use client'
 import Navbar from "@/Components/layouts/Navbar";
 import Sidebar from "@/Components/layouts/Sidebar";
+import UserTabBar from "@/Components/layouts/UserTabBar";
 import React, { useState } from "react";
 
-export default function AdminLayout ({
+export default function UserLayout ({
     children
   }: Readonly<{
     children: React.ReactNode
@@ -12,7 +13,7 @@ export default function AdminLayout ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="d-flex">
+    <div className="d-flex vh-100 overflow-hidden">
       <div
         className={`sidebar-backdrop ${sidebarOpen ? "show" : ""}`}
         onClick={() => setSidebarOpen(false)}
@@ -30,9 +31,13 @@ export default function AdminLayout ({
           onToggleCollapse={() => setCollapsed((prev) => !prev)}
         />
 
-        <main className="p-4 flex-grow-1 bg-light">
+        <main className="p-4 flex-grow-1 bg-light overflow-y-auto" style={{ paddingBottom: '80px' }}>
           {children}
+          {/* Spacer for mobile tab bar */}
+          <div className="d-md-none" style={{ height: '60px' }}></div>
         </main>
+        
+        <UserTabBar />
       </div>
     </div>
   )

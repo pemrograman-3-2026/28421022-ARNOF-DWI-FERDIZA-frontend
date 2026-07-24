@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { adminMenu } from "@/Components/menu/admin.menu";
 import { userMenu } from "@/Components/menu/user.menu";
+import { superAdminMenu } from "@/Components/menu/superadmin.menu";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
@@ -18,8 +19,15 @@ export default function Sidebar(
   }
 ) {
   const pathname = usePathname() || '';
+  const isSuperAdmin = pathname.startsWith('/superadmin');
   const isAdmin = pathname.startsWith('/admin');
-  const navItems = isAdmin ? adminMenu : userMenu;
+  
+  let navItems = userMenu;
+  if (isSuperAdmin) {
+    navItems = superAdminMenu;
+  } else if (isAdmin) {
+    navItems = adminMenu;
+  }
 
   const [user, setUser] = useState<{username: string, role: string} | null>(null);
 
@@ -73,10 +81,10 @@ export default function Sidebar(
           {!collapsed && (
             <div className="ms-3 overflow-hidden">
               <div className="fw-bolder text-white text-truncate" style={{ fontSize: '0.85rem', letterSpacing: '0.5px' }}>
-                {user.role === 'ADMIN' ? 'SEMBAKO ADMIN' : 'TOKO SEMBAKO'}
+                {(user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') ? 'SEMBAKO ADMIN' : 'TOKO SEMBAKO'}
               </div>
               <div className="text-white-50 text-truncate mt-1 fw-medium" style={{ fontSize: '0.8rem' }}>
-                {user.role === 'ADMIN' ? 'Admin ' : ''}{user.username}
+                {(user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') ? (user.role === 'SUPER_ADMIN' ? 'Super Admin ' : 'Admin ') : ''}{user.username}
               </div>
             </div>
           )}

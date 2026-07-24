@@ -60,42 +60,44 @@ export default function UserPage() {
           Tambah User
         </button>
       </Link>
-      <table className="table table-hover mt-4 table-striped ">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>No Telp</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((d, index) => {
-            return (
-              <tr key={d.id}>
-                <td>{index + 1}</td>
-                <td>{d.username}</td>
-                <td>{d.role}</td>
-                <td>{d.no_telp || '-'}</td>
-                <td>
-                  <div className="d-flex gap-2">
-                    <Link href={`/admin/user/edit/${d.id}`}>
-                      <button className="btn btn-warning btn-sm">Edit</button>
-                    </Link>
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-          {(!data || data.length === 0) && (
+      <div className="table-responsive">
+        <table className="table table-hover mt-4 table-striped ">
+          <thead>
             <tr>
-              <td colSpan={5} className="text-center">Belum ada data user</td>
+              <th>No</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>No Telp</th>
+              <th>Aksi</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.map((d, index) => {
+              return (
+                <tr key={d.id}>
+                  <td>{index + 1}</td>
+                  <td>{d.username}</td>
+                  <td>{d.role}</td>
+                  <td>{d.no_telp || '-'}</td>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <Link href={`/admin/user/edit/${d.id}`}>
+                        <button className="btn btn-warning btn-sm">Edit</button>
+                      </Link>
+                      <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            {(!data || data.length === 0) && (
+              <tr>
+                <td colSpan={5} className="text-center">Belum ada data user</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

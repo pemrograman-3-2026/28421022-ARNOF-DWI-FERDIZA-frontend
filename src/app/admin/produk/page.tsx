@@ -65,52 +65,54 @@ export default function BarangPage() {
           Tambah Barang
         </button>
       </Link>
-      <table className="table table-hover mt-4 table-striped">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Image</th>
-            <th>Nama Barang</th>
-            <th>Kategori</th>
-            <th>Harga</th>
-            <th>Stok</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((d, index) => {
-            return (
-              <tr key={d.id}>
-                <td>{index + 1}</td>
-                <td>
-                  {d.image ? (
-                    <img src={`http://localhost:3100/image/${d.image}`} alt={d.nama_barang} width={100} height={100} style={{ objectFit: 'cover', borderRadius: '4px' }} />
-                  ) : (
-                    <div style={{ width: 50, height: 50, backgroundColor: '#eee', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#999', textAlign: 'center' }}>No Image</div>
-                  )}
-                </td>
-                <td>{d.nama_barang}</td>
-                <td>{d.kategori?.nama_kategori || '-'}</td>
-                <td>Rp {d.harga.toLocaleString('id-ID')}</td>
-                <td>{d.stok}</td>
-                <td>
-                  <div className="d-flex gap-2">
-                    <Link href={`/admin/produk/${d.id}`}>
-                      <button className="btn btn-warning btn-sm">Edit</button>
-                    </Link>
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-          {(!data || data.length === 0) && (
+      <div className="table-responsive">
+        <table className="table table-hover mt-4 table-striped">
+          <thead>
             <tr>
-              <td colSpan={6} className="text-center">Belum ada data barang</td>
+              <th>No</th>
+              <th>Image</th>
+              <th>Nama Barang</th>
+              <th>Kategori</th>
+              <th>Harga</th>
+              <th>Stok</th>
+              <th>Aksi</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.map((d, index) => {
+              return (
+                <tr key={d.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    {d.image ? (
+                      <img src={`http://localhost:3100/image/${d.image}`} alt={d.nama_barang} width={100} height={100} style={{ objectFit: 'cover', borderRadius: '4px' }} />
+                    ) : (
+                      <div style={{ width: 50, height: 50, backgroundColor: '#eee', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#999', textAlign: 'center' }}>No Image</div>
+                    )}
+                  </td>
+                  <td>{d.nama_barang}</td>
+                  <td>{d.kategori?.nama_kategori || '-'}</td>
+                  <td>Rp {d.harga.toLocaleString('id-ID')}</td>
+                  <td>{d.stok}</td>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <Link href={`/admin/produk/${d.id}`}>
+                        <button className="btn btn-warning btn-sm">Edit</button>
+                      </Link>
+                      <button className="btn btn-danger btn-sm" onClick={() => deleteData(d.id)}>Hapus</button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            {(!data || data.length === 0) && (
+              <tr>
+                <td colSpan={6} className="text-center">Belum ada data barang</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -3,23 +3,21 @@ import Navbar from "@/Components/layouts/Navbar";
 import Sidebar from "@/Components/layouts/Sidebar";
 import React, { useState } from "react";
 
-export default function AdminLayout ({
-  children
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function SuperAdminLayout ({
+    children
+  }: Readonly<{
+    children: React.ReactNode
+  }>
+) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-
   return (
     <div className="d-flex vh-100 overflow-hidden">
-      
       <div
         className={`sidebar-backdrop ${sidebarOpen ? "show" : ""}`}
         onClick={() => setSidebarOpen(false)}
       />
       
-
       <Sidebar
         isOpen={sidebarOpen}
         collapsed={collapsed}
@@ -32,7 +30,6 @@ export default function AdminLayout ({
           onToggleCollapse={() => setCollapsed((prev) => !prev)}
         />
 
-        
         <main className="p-4 flex-grow-1 bg-light overflow-y-auto">
           {children}
         </main>

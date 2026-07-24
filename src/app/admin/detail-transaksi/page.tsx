@@ -51,30 +51,32 @@ export default function DetailTransaksiPage() {
   return (
     <div>
       <h4> Data Detail Transaksi </h4>
-      <table className="table table-hover mt-4">
-        <thead>
-          <tr>
-            <td>ID Transaksi</td>
-            <td>ID Barang</td>
-            <td>Jumlah</td>
-            <td>Harga Satuan</td>
-            <td>Subtotal</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((d) =>   {
-            return (
-              <tr key={d.id}>
-                <td>{d.transaksi_id}</td>
-                <td>{d.barang_id}</td>
-                <td>{d.jumlah}</td>
-                <td>{d.harga_satuan}</td>
-                <td>{d.subtotal}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table table-hover mt-4">
+          <thead>
+            <tr>
+              <td>ID Transaksi</td>
+              <td>ID Barang</td>
+              <td>Jumlah</td>
+              <td>Harga Satuan</td>
+              <td>Subtotal</td>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.map((d) =>   {
+              return (
+                <tr key={d.id}>
+                  <td>{d.transaksi_id}</td>
+                  <td>{d.barang_id}</td>
+                  <td>{d.jumlah}</td>
+                  <td>{d.harga_satuan}</td>
+                  <td>{d.subtotal}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

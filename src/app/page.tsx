@@ -27,7 +27,9 @@ export default function LoginPage() {
       Cookies.set('user', JSON.stringify(userData), { expires: 1 })
 
       showToast(res.data.message, 'success')
-      if (userData.role === 'ADMIN') {
+      if (userData.role === 'SUPER_ADMIN') {
+        router.push('/superadmin/dashboard')
+      } else if (userData.role === 'ADMIN') {
         router.push('/admin')
       } else {
         router.push('/user/dashboard')

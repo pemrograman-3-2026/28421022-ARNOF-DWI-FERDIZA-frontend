@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export type TRole = 'ADMIN' | 'USER' | 'KASIR';
+export type TRole = 'ADMIN' | 'SUPER_ADMIN' | 'USER' | 'KASIR';
 export interface IUser {
   username: string;
   role: TRole;
@@ -13,7 +13,8 @@ export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const toUserPage = pathname.startsWith("/user");
   const toAdminPage = pathname.startsWith("/admin");
-  const isNeedSession = toUserPage || toAdminPage;
+  const toSuperAdminPage = pathname.startsWith("/superadmin");
+  const isNeedSession = toUserPage || toAdminPage || toSuperAdminPage;
 
   if (isNeedSession) {
     if (!userCookie) {
@@ -23,13 +24,18 @@ export default function proxy(request: NextRequest) {
     try {
       const user: IUser = JSON.parse(userCookie);
       
-      if (user.role !== 'ADMIN' && toAdminPage) {
+      if (user.role === 'USER' && (toAdminPage || toSuperAdminPage)) {
         return NextResponse.redirect(new URL("/user/dashboard", request.url));
       }
 
-      if (user.role === 'ADMIN' && toUserPage) {
+      if (user.role === 'ADMIN' && (toUserPage || toSuperAdminPage)) {
         return NextResponse.redirect(new URL("/admin", request.url));
       }
+      
+      if (user.role === 'SUPER_ADMIN' && (toUserPage || toAdminPage)) {
+        return NextResponse.redirect(new URL("/superadmin/dashboard", request.url));
+      }
+    
 
     } catch (error) {
       const response = NextResponse.redirect(new URL("/", request.url));

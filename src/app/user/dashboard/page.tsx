@@ -71,19 +71,42 @@ export default function UserDashboard() {
         <div className="col-12">
           <div className="p-5 rounded-4 shadow-sm text-white position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }}>
             <div className="position-relative" style={{ zIndex: 1 }}>
-              <span className="badge bg-white text-success mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm">Promo Jumat Berkat Sembako</span>
+              <Link href="/user/dashboard/promo" className="text-decoration-none d-inline-block mb-3">
+                <span
+                  className="badge bg-white text-success px-3 py-2 rounded-pill fw-bold shadow-sm"
+                  style={{ transition: 'all 0.2s', cursor: 'pointer' }}
+                  onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                  onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                  Promo Jumat Berkat Sembako &rarr;
+                </span>
+              </Link>
               <h1 className="fw-bolder display-5 mb-3" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Sembako Lengkap, Pengiriman Kilat!</h1>
               <p className="lead mb-4 fw-medium" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                 Temukan beras premium, telur segar, minyak goreng jernih, dan aneka bumbu pokok dengan harga grosir langsung di genggaman Anda.
               </p>
-              <button
-                className="btn btn-light btn-lg px-4 fw-bold text-success shadow rounded-pill"
-                style={{ transition: 'all 0.3s' }}
-                onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-                onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}
-              >
-                Mulai Belanja Sembako
-              </button>
+              <div className="d-flex gap-3 flex-wrap">
+                <Link href="/user/katalog">
+                  <button
+                    className="btn btn-light btn-lg px-4 fw-bold text-success shadow rounded-pill"
+                    style={{ transition: 'all 0.3s' }}
+                    onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    Mulai Belanja Sembako
+                  </button>
+                </Link>
+                <Link href="/user/dashboard/promo/klaim">
+                  <button
+                    className="btn btn-outline-light btn-lg px-4 fw-bold shadow-sm rounded-pill"
+                    style={{ transition: 'all 0.3s' }}
+                    onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    Klaim promo anda disini
+                  </button>
+                </Link>
+              </div>
             </div>
             <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '300px', height: '300px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
             <div style={{ position: 'absolute', bottom: '-50px', right: '150px', width: '200px', height: '200px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
@@ -102,10 +125,11 @@ export default function UserDashboard() {
                 </div>
                 <p className="mb-4 text-white-50 fw-medium">Beras Merah Premium & Telur Gurih Organik pilihan terbaik.</p>
               </div>
-              <div className="bg-white bg-opacity-25 rounded-4 p-3 text-center" style={{ backdropFilter: 'blur(10px)' }}>
-                <p className="mb-1 small text-uppercase fw-bold text-white-50">Berakhir Dalam</p>
-                <h3 className="fw-bold mb-0 font-monospace text-white">02j : 45m : 12d</h3>
-              </div>
+              <Link href="/user/dashboard/promo" style={{ textDecoration: 'none' }}>
+                <div className="bg-white bg-opacity-25 rounded-4 p-3 text-center" style={{ backdropFilter: 'blur(10px)' }}>
+                  <span className="fw-bolder fs-5 text-white">Lihat Semua Promo &rarr;</span>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -161,6 +185,9 @@ export default function UserDashboard() {
             <h4 className="fw-bold text-dark mb-1">Kupon Voucher Spesial</h4>
             <p className="text-muted small mb-0 fw-medium">Klik untuk salin kode dan nikmati potongannya.</p>
           </div>
+          <Link href="/user/dashboard/promo" className="btn btn-outline-success btn-sm rounded-pill px-3 fw-bold shadow-sm">
+            Lihat Semua
+          </Link>
         </div>
         <div className="row g-4">
 
@@ -186,7 +213,7 @@ export default function UserDashboard() {
             </div>
           </div>
 
-          
+
           <div className="col-md-4">
             <div
               className="card border-0 shadow-sm rounded-4 overflow-hidden"
@@ -249,67 +276,68 @@ export default function UserDashboard() {
             <p className="text-muted fw-medium mb-0">Memuat katalog produk...</p>
           </div>
         ) : (
-          <div className="row g-4">
+          <div className="row g-2 g-md-4">
             {products.slice(0, 8).map((product) => (
-              <div key={product.id} className="col-6 col-md-4 col-lg-3">
+              <div key={product.id} className="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
                 <div
-                  className="card h-100 border-0 shadow-sm rounded-4 bg-white p-3 product-card"
-                  style={{ transition: 'all 0.3s' }}
-                  onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.classList.add('shadow'); }}
-                  onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.classList.remove('shadow'); }}
+                  className="card h-100 border rounded-3 bg-white"
+                  style={{ borderColor: '#e0e0e0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', transition: 'all 0.3s' }}
+                  onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)'; }}
+                  onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)'; }}
                 >
-
-
-                  <div className="position-relative bg-light rounded-4 d-flex justify-content-center align-items-center mb-3" style={{ height: '160px' }}>
+                  <div className="position-relative p-2 text-center bg-white rounded-top-3" style={{ aspectRatio: '1/1' }}>
                     {product.image ? (
                       <img
                         src={`http://localhost:3100/image/${product.image}`}
                         alt={product.nama_barang}
-                        style={{ width: '140px', height: '140px', objectFit: 'contain' }}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                       />
                     ) : (
-                      <div className="d-flex flex-column align-items-center justify-content-center text-muted" style={{ width: '140px', height: '140px' }}>
-                        <span style={{ fontSize: '40px' }}>🛍️</span>
+                      <div className="d-flex align-items-center justify-content-center w-100 h-100 text-muted">
+                        <span style={{ fontSize: '3rem' }}>🛍️</span>
                       </div>
                     )}
                     {product.stok === 0 && (
-                      <span className="badge bg-danger position-absolute top-0 start-0 m-3 rounded-pill px-3 py-2 shadow-sm fw-bold">Habis</span>
+                      <span className="badge bg-danger position-absolute top-0 start-0 m-2 rounded-2 px-2 py-1 shadow-sm fw-bold" style={{ fontSize: '0.65rem' }}>Habis</span>
                     )}
                   </div>
 
+                  <div className="bg-danger text-white text-center py-1 mx-auto" style={{ width: '90%', borderRadius: '12px', fontSize: '0.6rem', fontWeight: 'bold', marginTop: '-12px', zIndex: 2, position: 'relative', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingLeft: '4px', paddingRight: '4px' }}>
+                    {product.kategori?.nama_kategori || 'Sembako'}
+                  </div>
 
-                  <div className="d-flex flex-column flex-grow-1">
-                    <p className="text-muted text-uppercase mb-1" style={{ fontSize: '10px', letterSpacing: '0.5px', fontWeight: '700' }}>
-                      {product.kategori?.nama_kategori || 'Tanpa Kategori'}
-                    </p>
-                    <h6 className="fw-bold text-dark mb-1" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.4', fontSize: '15px' }}>
+                  <div className="card-body p-2 d-flex flex-column mt-1">
+                    <h6 className="card-title text-dark mb-1" style={{ fontSize: '0.8rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.3' }}>
                       {product.nama_barang}
                     </h6>
-                    <p className="text-secondary mb-3" style={{ fontSize: '12px', fontWeight: '500' }}>
-                      Pcs • Sedia {product.stok}
-                    </p>
 
-                    
-                    <div className="mt-auto d-flex flex-column gap-2 pt-2">
-                      <span className="fw-bolder text-success font-monospace" style={{ fontSize: '16px' }}>
-                        Rp {product.harga.toLocaleString('id-ID')}
+                    <div className="fw-bold text-dark mb-1" style={{ fontSize: '1rem' }}>
+                      Rp {product.harga.toLocaleString('id-ID')}
+                    </div>
+
+                    <div className="d-flex align-items-center flex-wrap gap-1 mb-2">
+                      <span className="bg-danger text-white fw-bold px-1 rounded" style={{ fontSize: '0.55rem' }}>
+                        15%
                       </span>
-                      <div className="d-flex gap-2 mt-1">
-                        <button 
-                          className={`btn ${product.stok === 0 ? 'btn-light text-muted' : 'btn-outline-success'} btn-sm rounded-pill fw-bold w-50 shadow-sm`} 
-                          disabled={product.stok === 0}
-                          onClick={() => handleAddToCart(product, false)}
-                        >
-                          + Keranjang
-                        </button>
-                        <button
-                          className={`btn ${product.stok === 0 ? 'btn-light text-muted' : 'btn-success'} btn-sm rounded-pill fw-bold w-50 shadow-sm`}
-                          disabled={product.stok === 0}
-                          onClick={() => handleAddToCart(product, true)}
-                        >
-                          {product.stok === 0 ? 'Habis' : 'Beli'}
-                        </button>
-                      </div>
+                      <span className="text-muted text-decoration-line-through" style={{ fontSize: '0.65rem' }}>
+                        Rp {Math.round(product.harga * 1.15).toLocaleString('id-ID')}
+                      </span>
+                    </div>
+
+                    <div className="mb-2 d-flex align-items-center gap-1">
+                      <span style={{ color: '#eab308', fontSize: '0.7rem' }}>⚡</span>
+                      <span className="text-danger fw-bold" style={{ fontSize: '0.6rem' }}>Pengiriman Instan</span>
+                    </div>
+
+                    <div className="mt-auto">
+                      <button
+                        className="btn w-100 rounded-2 fw-bold text-white shadow-sm"
+                        style={{ backgroundColor: '#0057b8', borderColor: '#0057b8', fontSize: '0.75rem', padding: '0.3rem' }}
+                        onClick={() => handleAddToCart(product, false)}
+                        disabled={product.stok === 0}
+                      >
+                        {product.stok === 0 ? 'Habis' : '+ Keranjang'}
+                      </button>
                     </div>
                   </div>
                 </div>
